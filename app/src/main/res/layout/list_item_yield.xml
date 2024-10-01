@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TwoLineListItem xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?attr/listPreferredItemHeight"
+    android:mode="twoLine"
+    android:paddingStart="?attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?attr/listPreferredItemPaddingEnd">
+
+    <TextView
+        android:id="@+id/textName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="29dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textDatum"
+        android:layout_width="102dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="30dp"
+        android:layout_toEndOf="@+id/textName"
+        android:text="TextView" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="54dp"
+        android:layout_marginEnd="16dp"
+        android:layout_toEndOf="@+id/textDatum"
+        android:text="Button" />
+</TwoLineListItem>
