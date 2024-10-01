@@ -9,10 +9,12 @@ public class ShroomManagerUtils {
         return cursor.getString(0);
     }
 
-    public static String[] getArrayFromCursor(Cursor cursor, int column){
-        String[] res = new String[cursor.getCount()];
+    public static String[][] getArrayFromCursor(Cursor cursor){
+        String[][] res = new String[cursor.getColumnCount()][cursor.getCount()];
         while(cursor.moveToNext()){
-            res[cursor.getPosition()] = cursor.getString(column);
+            for(int i = 0; i < cursor.getColumnCount(); i++){
+                res[i][cursor.getPosition()] = cursor.getString(i);
+            }
         }
         return res;
     }

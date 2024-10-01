@@ -100,6 +100,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
+    public boolean deleteYield(String yieldId){
+        System.out.println("DBHelper.deleteYield");
+        SQLiteDatabase DB = this.getWritableDatabase();
+
+        String[] where = {yieldId};
+        long res = DB.delete("shrooms_yields", "id=?", where);
+        return (res != -1);
+    }
+
 
     public void reset(){
         onUpgrade(getWritableDatabase(), 0, 0);

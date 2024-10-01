@@ -81,10 +81,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshShroomList(){
-        String[] shroomsNameList = ShroomManagerUtils.getArrayFromCursor(DB.getShrooms(), 1);
-        String[] shroomsIdList = ShroomManagerUtils.getArrayFromCursor(DB.getShrooms(), 0);
+        String[][] shroomsList = ShroomManagerUtils.getArrayFromCursor(DB.getShrooms());
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(MainActivity.this,
-                android.R.layout.simple_list_item_1, shroomsNameList);
+                android.R.layout.simple_list_item_1, shroomsList[1]);
         listViewShrooms.setAdapter(arrayAdapter);
         listViewShrooms.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -92,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 String shroomName = arrayAdapter.getItem(i);
                 System.out.println(shroomName);
                 Intent intent = new Intent(MainActivity.this, ShroomActivity.class);
-                intent.putExtra("ShroomId", shroomsIdList[i]);
+                intent.putExtra("ShroomId", shroomsList[0][i]);
                 startActivity(intent);
             }
         });

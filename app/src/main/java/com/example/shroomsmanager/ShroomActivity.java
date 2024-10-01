@@ -3,6 +3,7 @@ package com.example.shroomsmanager;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -74,10 +75,42 @@ public class ShroomActivity extends AppCompatActivity {
     }
 
     private void refreshYieldList(){
-        String[] yieldNameList = ShroomManagerUtils.getArrayFromCursor(DB.getYields(shroomId), 2);
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(ShroomActivity.this,
-                android.R.layout.simple_list_item_1, yieldNameList);
-        listViewYields.setAdapter(arrayAdapter);
+        System.out.println("refreshYieldList");
+        String[][] yieldList = ShroomManagerUtils.getArrayFromCursor(DB.getYields(shroomId));
+
+        ArrayAdapter adapter = new ArrayAdapter(this, R.layout.list_item_yield, R.id.textName, yieldList[2]) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                System.out.println("refreshYieldList2");
+                View view = super.getView(position, convertView, parent);
+                TextView text1 = (TextView) view.findViewById(R.id.textName);
+                TextView text2 = (TextView) view.findViewById(R.id.textDatum);
+
+                System.out.println("test" + yieldList[0].length + yieldList.length);
+
+                if(yieldList[0].length != 0) {
+                    System.out.println("keine Einträge");
+                    text1.setText(yieldList[2][position]);
+                    text2.setText(yieldList[1][position]);
+                }
+
+                Button button = (Button) view.findViewById(R.id.button);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        deleteYield(yieldList[0][position]);
+                        refreshYieldList();
+                    }
+                });
+
+                return view;
+            }
+        };
+        listViewYields.setAdapter(adapter);
+    }
+
+    private void deleteYield(String yieldId){
+        DB.deleteYield(yieldId);
     }
 
 }
