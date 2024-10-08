@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -13,8 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ShroomActivity extends AppCompatActivity {
 
-    String shroomId, name, date;
-    TextView shroomNameText, shroomDateText;
+    String shroomId, name, date, type;
+    TextView shroomNameText, shroomDateText, shroomTypeText;
     Button deleteButton, addYieldButton;
     ListView listViewYields;
 
@@ -39,6 +40,9 @@ public class ShroomActivity extends AppCompatActivity {
 
         shroomDateText = findViewById(R.id.shroomDate);
         shroomDateText.setText(date);
+
+        shroomTypeText = findViewById(R.id.shroomType);
+        shroomTypeText.setText(type);
 
         deleteButton = findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -69,9 +73,11 @@ public class ShroomActivity extends AppCompatActivity {
     }
 
     private void unpackCursor(Cursor cursor){
+        System.out.println("unpackCursor " + String.valueOf(cursor.getCount()));
         cursor.moveToNext();
         name = cursor.getString(1);
         date = cursor.getString(2);
+        type = cursor.getString(3);
     }
 
     private void refreshYieldList(){
@@ -94,12 +100,21 @@ public class ShroomActivity extends AppCompatActivity {
                     text2.setText(yieldList[1][position]);
                 }
 
-                Button button = (Button) view.findViewById(R.id.button);
-                button.setOnClickListener(new View.OnClickListener() {
+                Button deleteButton = (Button) view.findViewById(R.id.deleteButton);
+                deleteButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         deleteYield(yieldList[0][position]);
                         refreshYieldList();
+                    }
+                });
+
+                ImageButton editButton = (ImageButton) view.findViewById(R.id.editButton);
+                editButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        System.out.println("EditDialog");
+                        openEditDialog();
                     }
                 });
 
@@ -111,6 +126,9 @@ public class ShroomActivity extends AppCompatActivity {
 
     private void deleteYield(String yieldId){
         DB.deleteYield(yieldId);
+    }
+
+    private void openEditDialog(){
     }
 
 }

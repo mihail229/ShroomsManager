@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TwoLineListItem xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="?attr/listPreferredItemHeight"
@@ -19,17 +20,23 @@
         android:id="@+id/textDatum"
         android:layout_width="102dp"
         android:layout_height="42dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/textName"
         android:text="TextView" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/deleteButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="54dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginStart="27dp"
+        android:layout_toEndOf="@+id/editButton"
+        android:text="Delete" />
+
+    <ImageButton
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
         android:layout_toEndOf="@+id/textDatum"
-        android:text="Button" />
+        app:srcCompat="@android:drawable/ic_menu_edit"/>
 </TwoLineListItem>

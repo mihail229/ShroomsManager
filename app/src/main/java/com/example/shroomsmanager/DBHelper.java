@@ -13,7 +13,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase DB) {
-        DB.execSQL("create Table shrooms_basic_info(id INTEGER primary key autoincrement, name TEXT,creation_date TEXT)");
+        DB.execSQL("create Table shrooms_basic_info(id INTEGER primary key autoincrement, name TEXT,creation_date TEXT, type TEXT)");
         DB.execSQL("create Table shrooms_yields(id INTEGER primary key autoincrement, creation_date TEXT, ertrag TEXT, shroom_id INTEGER, foreign key(shroom_id) references shrooms_basic_info(id)ON DELETE CASCADE \n" +
                 "ON UPDATE NO ACTION)");
     }
@@ -24,24 +24,27 @@ public class DBHelper extends SQLiteOpenHelper {
         DB.execSQL("drop Table if exists shrooms_yields");
     }
 
-    public boolean insertShrooms(String name, String creation_date){
+    public boolean insertShrooms(String name, String creation_date, String type){
         System.out.println("DBHelper.insertShrooms");
         SQLiteDatabase DB = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
         contentValues.put("name", name);
         contentValues.put("creation_date", creation_date);
+        contentValues.put("type", type);
 
         long res = DB.insert("shrooms_basic_info", null, contentValues);
         System.out.println(res);
         return (res != -1);
     };
 
-    public boolean updateShrooms(int id, String name, String creation_date){
+    public boolean updateShrooms(int id, String name, String creation_date, String type){
         SQLiteDatabase DB = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
+        contentValues.put("name", name);
         contentValues.put("creation_date", creation_date);
+        contentValues.put("type", type);
         String[] where = {String.valueOf(id)};
         Cursor cursor = DB.rawQuery("SElECT * from shrooms_basic_info where id = ?", where);
         if(cursor.getCount() > 0){
