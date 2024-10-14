@@ -37,10 +37,8 @@ public class AddYieldDialog extends AppCompatDialogFragment {
 
 
         EditText name = (EditText) view.findViewById(R.id.createDialogName);
-        dateView = (TextView) view.findViewById(R.id.createDialogDate);final Calendar c = Calendar.getInstance();
-        dateString = String.valueOf(c.get(Calendar.DAY_OF_MONTH)) + "."
-                + String.valueOf(c.get(Calendar.MONTH) + 1) + "."
-                +String.valueOf(c.get(Calendar.YEAR));
+        dateView = (TextView) view.findViewById(R.id.createDialogDate);
+        dateString = ShroomManagerUtils.getCurrDate();
         dateView.setText(dateString);
 
         ImageButton dateButton = view.findViewById(R.id.editDateButton);
