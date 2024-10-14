@@ -16,7 +16,7 @@ public class ShroomActivity extends AppCompatActivity {
 
     String shroomId, name, date, type;
     TextView shroomNameText, shroomDateText, shroomTypeText;
-    Button deleteButton, addYieldButton;
+    Button deleteButton, addYieldButton, editButton;
     ListView listViewYields;
 
     DBHelper DB = new DBHelper(this);
@@ -30,24 +30,27 @@ public class ShroomActivity extends AppCompatActivity {
         shroomId = (String) getIntent().getSerializableExtra("ShroomId");
         System.out.println("ID: " + shroomId);
 
-        unpackCursor(DB.getShroomsData(shroomId));
-
         listViewYields = findViewById(R.id.listViewYields);
         refreshYieldList();
 
         shroomNameText = findViewById(R.id.shroomName);
-        shroomNameText.setText(name);
-
         shroomDateText = findViewById(R.id.shroomDate);
-        shroomDateText.setText(date);
-
         shroomTypeText = findViewById(R.id.shroomType);
-        shroomTypeText.setText(type);
+        refreshWindow();
+
+        editButton = findViewById(R.id.editButton);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openEditDialog();
+            }
+        });
 
         deleteButton = findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                System.out.println("Delete");
                 DB.deleteShrooms(shroomId);
                 finish();
             }
@@ -68,16 +71,11 @@ public class ShroomActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        System.out.println("onWindowFocusChanged");
-        refreshYieldList();
-    }
-
-    private void unpackCursor(Cursor cursor){
-        System.out.println("unpackCursor " + String.valueOf(cursor.getCount()));
-        cursor.moveToNext();
-        name = cursor.getString(1);
-        date = cursor.getString(2);
-        type = cursor.getString(3);
+        if(hasFocus) {
+            System.out.println("onWindowFocusChanged2");
+            refreshWindow();
+            refreshYieldList();
+        }
     }
 
     private void refreshYieldList(){
@@ -100,11 +98,11 @@ public class ShroomActivity extends AppCompatActivity {
                     text2.setText(yieldList[1][position]);
                 }
 
-                Button deleteButton = (Button) view.findViewById(R.id.deleteButton);
-                deleteButton.setOnClickListener(new View.OnClickListener() {
+                Button deleteYieldButton = (Button) view.findViewById(R.id.deleteButton);
+                deleteYieldButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        deleteYield(yieldList[0][position]);
+                        DB.deleteYield(yieldList[0][position]);
                         refreshYieldList();
                     }
                 });
@@ -113,8 +111,8 @@ public class ShroomActivity extends AppCompatActivity {
                 editButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        System.out.println("EditDialog");
-                        openEditDialog();
+                        getIntent().putExtra("YieldId", yieldList[0][position]);
+                        openEditYieldDialog();
                     }
                 });
 
@@ -124,11 +122,22 @@ public class ShroomActivity extends AppCompatActivity {
         listViewYields.setAdapter(adapter);
     }
 
-    private void deleteYield(String yieldId){
-        DB.deleteYield(yieldId);
-    }
 
     private void openEditDialog(){
+        EditDialog editDialog = new EditDialog();
+        editDialog.show(getSupportFragmentManager(), "Test Edit Dialog");
     }
 
+    private void openEditYieldDialog(){
+        EditYieldDialog editYieldDialog = new EditYieldDialog();
+        editYieldDialog.show(getSupportFragmentManager(), "Test Edit Yield Dialog");
+    }
+
+    private void refreshWindow(){
+        Cursor cursor = DB.getShroomsData(shroomId);
+        cursor.moveToNext();
+        shroomNameText.setText(cursor.getString(1));
+        shroomDateText.setText(cursor.getString(2));
+        shroomTypeText.setText(cursor.getString(3));
+    }
 }

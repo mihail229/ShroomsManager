@@ -71,8 +71,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
-        System.out.println("onWindowFocusChanged");
-        refreshShroomList();
+        if(hasFocus) {
+            System.out.println("onWindowFocusChanged1");
+            refreshShroomList();
+        }
     }
 
     private void openCreateDialog(View view){
@@ -81,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshShroomList(){
+        System.out.println("refreshShroomList");
         String[][] shroomsList = ShroomManagerUtils.getArrayFromCursor(DB.getShrooms());
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(MainActivity.this,
                 android.R.layout.simple_list_item_1, shroomsList[1]);

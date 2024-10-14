@@ -99,8 +99,6 @@ public class DBHelper extends SQLiteOpenHelper {
         long res = DB.insert("shrooms_yields", null, contentValues);
         System.out.println(res);
         return (res != -1);
-
-
     }
 
     public boolean deleteYield(String yieldId){
@@ -110,6 +108,30 @@ public class DBHelper extends SQLiteOpenHelper {
         String[] where = {yieldId};
         long res = DB.delete("shrooms_yields", "id=?", where);
         return (res != -1);
+    }
+
+    public boolean updateYield(int yieldId, String name, String creation_date){
+        System.out.println("DBHelper.updateYield");
+        SQLiteDatabase DB = this.getWritableDatabase();
+
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("ertrag", name);
+        contentValues.put("creation_date", creation_date);
+        String[] where = {String.valueOf(yieldId)};
+        Cursor cursor = DB.rawQuery("SElECT * from shrooms_yields where id = ?", where);
+        if(cursor.getCount() > 0){
+            long res = DB.update("shrooms_yields", contentValues, "id=?", where);
+            return (res != -1);
+        }
+        else return false;
+    }
+
+    public Cursor getYieldData(String yieldId){
+        System.out.println("DBHelper.getYieldData");
+        SQLiteDatabase DB = this.getWritableDatabase();
+
+        Cursor cursor = DB.rawQuery("SElECT * from shrooms_yields where id=?", new String[] {yieldId});
+        return cursor;
     }
 
 
