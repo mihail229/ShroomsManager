@@ -14,7 +14,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase DB) {
         DB.execSQL("create Table shrooms_basic_info(id INTEGER primary key autoincrement, name TEXT,creation_date TEXT, type TEXT)");
-        DB.execSQL("create Table shrooms_yields(id INTEGER primary key autoincrement, creation_date TEXT, ertrag TEXT, shroom_id INTEGER, foreign key(shroom_id) references shrooms_basic_info(id)ON DELETE CASCADE \n" +
+        DB.execSQL("create Table shrooms_yields(id INTEGER primary key autoincrement, creation_date TEXT, ertrag INTEGER, shroom_id INTEGER, foreign key(shroom_id) references shrooms_basic_info(id)ON DELETE CASCADE \n" +
                 "ON UPDATE NO ACTION)");
     }
 
@@ -132,6 +132,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
         Cursor cursor = DB.rawQuery("SElECT * from shrooms_yields where id=?", new String[] {yieldId});
         return cursor;
+    }
+
+    public String getTotalYield(String id){
+        System.out.println("DBHelper.getTotalYield");
+        SQLiteDatabase DB = this.getWritableDatabase();
+
+        Cursor cursor = DB.rawQuery("SElECT SUM(ertrag) from shrooms_yields where shroom_id=?", new String[] {id});
+        cursor.moveToNext();
+        return cursor.getString(0);
     }
 
 
