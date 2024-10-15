@@ -13,6 +13,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MainActivity extends AppCompatActivity {
 
+    int pilzezählen = 1;
     private FloatingActionButton createButton;
     private ListView listViewShrooms;
 
@@ -77,6 +78,14 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("onWindowFocusChanged1");
             refreshShroomList();
         }
+    }
+
+    public int getPilzezählen() {
+        return pilzezählen;
+    }
+
+    public void setPilzezählen(int pPilzezählen) {
+        pilzezählen = pPilzezählen;
     }
 
     private void openCreateDialog(View view){

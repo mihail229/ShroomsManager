@@ -20,9 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import java.util.Calendar;
-
 public class CreateDialog extends AppCompatDialogFragment {
+
 
     String dateString;
     TextView dateView;
@@ -77,6 +76,11 @@ public class CreateDialog extends AppCompatDialogFragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         String strName = name.getText().toString();
+                        if(strName.equals("")) {
+                            Toast.makeText(getContext(), "Name ist leer", Toast.LENGTH_SHORT).show();
+                            String[][] shroomsList = ShroomManagerUtils.getArrayFromCursor(DB.getShrooms());
+                            strName = "Pilz " +  String.valueOf(shroomsList[0].length+1);
+                        }
                         String strDate = dateView.getText().toString();
                         System.out.println(strName + strDate + type);
                         Boolean checkInsert = DB.insertShrooms(strName, strDate, type);
