@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        DB.reset();
+
         listViewShrooms = (ListView) findViewById(R.id.shroomsList);
 
         refreshShroomList();
