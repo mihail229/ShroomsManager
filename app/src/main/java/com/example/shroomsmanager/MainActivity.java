@@ -20,9 +20,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        System.out.println("onCreate");
+        System.out.println("test");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        DB.reset();
 
         listViewShrooms = (ListView) findViewById(R.id.shroomsList);
 
