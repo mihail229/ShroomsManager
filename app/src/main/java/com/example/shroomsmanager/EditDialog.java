@@ -50,10 +50,6 @@ public class EditDialog extends AppCompatDialogFragment {
 
         name = (EditText) view.findViewById(R.id.createDialogName);
         dateView = (TextView) view.findViewById(R.id.createDialogDate);
-        final Calendar c = Calendar.getInstance();
-        dateString = String.valueOf(c.get(Calendar.DAY_OF_MONTH)) + "."
-                + String.valueOf(c.get(Calendar.MONTH) + 1) + "."
-                +String.valueOf(c.get(Calendar.YEAR));
         dateView.setText(dateString);
 
         autoCompleteTextView = view.findViewById(R.id.auto_complete_text);

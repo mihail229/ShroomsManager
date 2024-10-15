@@ -14,8 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ShroomActivity extends AppCompatActivity {
 
-    String shroomId, name, date, type;
-    TextView shroomNameText, shroomDateText, shroomTypeText;
+    String shroomId;
+    TextView shroomNameText, shroomDateText, shroomTypeText, totalYieldText;
     Button deleteButton, addYieldButton, editButton;
     ListView listViewYields;
 
@@ -36,6 +36,7 @@ public class ShroomActivity extends AppCompatActivity {
         shroomNameText = findViewById(R.id.shroomName);
         shroomDateText = findViewById(R.id.shroomDate);
         shroomTypeText = findViewById(R.id.shroomType);
+        totalYieldText = findViewById(R.id.totalYield);
         refreshWindow();
 
         editButton = findViewById(R.id.editButton);
@@ -139,5 +140,7 @@ public class ShroomActivity extends AppCompatActivity {
         shroomNameText.setText(cursor.getString(1));
         shroomDateText.setText(cursor.getString(2));
         shroomTypeText.setText(cursor.getString(3));
+
+        totalYieldText.setText(DB.getTotalYield(shroomId));
     }
 }
