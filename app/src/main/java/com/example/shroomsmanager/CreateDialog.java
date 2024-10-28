@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -29,6 +30,7 @@ public class CreateDialog extends AppCompatDialogFragment {
     String type = types[0];
     ArrayAdapter<String> adapterTypes;
     AutoCompleteTextView autoCompleteTextView;
+    Button positiveButton, negativeButton;
 
     @NonNull
     @Override
@@ -65,31 +67,37 @@ public class CreateDialog extends AppCompatDialogFragment {
             }
         });
 
-        builder.setView(view)
-                .setTitle("Neue Pilzzucht anlegen")
-                .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                })
-                .setPositiveButton("Erstellen", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String strName = name.getText().toString();
+        positiveButton = (Button) view.findViewById(R.id.positiveButton);
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strName = name.getText().toString();
                         if(strName.equals("")) {
-                            Toast.makeText(getContext(), "Name ist leer", Toast.LENGTH_SHORT).show();
-                            String[][] shroomsList = ShroomManagerUtils.getArrayFromCursor(DB.getShrooms());
-                            strName = "Pilz " +  String.valueOf(shroomsList[0].length+1);
+                            Toast.makeText(getContext(), "Name darf nicht leer sein", Toast.LENGTH_SHORT).show();
                         }
-                        String strDate = dateView.getText().toString();
-                        System.out.println(strName + strDate + type);
-                        Boolean checkInsert = DB.insertShrooms(strName, strDate, type);
-                        if(checkInsert) Toast.makeText(getContext(), "Pilzzucht erstellt", Toast.LENGTH_SHORT).show();
-                        else {
-                            Toast.makeText(getContext(), "Erstellung fehlgeschlagen", Toast.LENGTH_SHORT).show();
+                        else{
+                            String strDate = dateView.getText().toString();
+                            System.out.println(strName + strDate + type);
+                            Boolean checkInsert = DB.insertShrooms(strName, strDate, type);
+                            if(checkInsert) Toast.makeText(getContext(), "Pilzzucht erstellt", Toast.LENGTH_SHORT).show();
+                            else {
+                                Toast.makeText(getContext(), "Erstellung fehlgeschlagen", Toast.LENGTH_SHORT).show();
+                            }
+                            getDialog().dismiss();
                         }
-                    }
-                });
+            }
+        });
+
+        negativeButton = (Button) view.findViewById(R.id.negativeButton);
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().dismiss();
+            }
+        });
+
+        builder.setView(view)
+                .setTitle("Neue Pilzzucht anlegen");
 
 
         return builder.create();
