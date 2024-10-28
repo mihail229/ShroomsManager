@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -23,6 +24,7 @@ public class AddYieldDialog extends AppCompatDialogFragment {
 
     String shroom_id, dateString;
     TextView dateView;
+    Button positiveButton, negativeButton;
 
     @NonNull
     @Override
@@ -49,26 +51,38 @@ public class AddYieldDialog extends AppCompatDialogFragment {
             }
         });
 
+        positiveButton = (Button) view.findViewById(R.id.positiveButton);
+        positiveButton.setText("Speichern");
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strName = name.getText().toString();
+                if(strName.equals("")) {
+                    Toast.makeText(getContext(), "Ertrag darf nicht leer sein", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    String strDate = dateView.getText().toString();
+                    System.out.println(strName + strDate);
+                    Boolean checkInsert = DB.insertYield(strName, strDate, shroom_id);
+                    if(checkInsert) Toast.makeText(getContext(), "Ertrag hinzugefügt", Toast.LENGTH_SHORT).show();
+                    else {
+                        Toast.makeText(getContext(), "Eintragung fehlgeschlagen", Toast.LENGTH_SHORT).show();
+                    }
+                    getDialog().dismiss();
+                }
+            }
+        });
+
+        negativeButton = (Button) view.findViewById(R.id.negativeButton);
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().dismiss();
+            }
+        });
+
         builder.setView(view)
-                .setTitle("Neuen Ertrag eintragen")
-                .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                })
-                .setPositiveButton("Hinzufügen", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String strName = name.getText().toString();
-                        String strDate = dateView.getText().toString();
-                        System.out.println(strName + strDate);
-                        Boolean checkInsert = DB.insertYield(strName, strDate, shroom_id);
-                        if(checkInsert) Toast.makeText(getContext(), "Ertrag hinzugefügt", Toast.LENGTH_SHORT).show();
-                        else {
-                            Toast.makeText(getContext(), "Eintragung fehlgeschlagen", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                .setTitle("Neuen Ertrag eintragen");
 
 
         return builder.create();

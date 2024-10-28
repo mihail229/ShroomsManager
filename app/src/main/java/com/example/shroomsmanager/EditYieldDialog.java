@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,6 +27,7 @@ public class EditYieldDialog extends AppCompatDialogFragment {
     TextView dateView;
     EditText name;
     DBHelper DB;
+    Button positiveButton, negativeButton;
 
     @NonNull
     @Override
@@ -55,26 +57,38 @@ public class EditYieldDialog extends AppCompatDialogFragment {
             }
         });
 
+        positiveButton = (Button) view.findViewById(R.id.positiveButton);
+        positiveButton.setText("Speichern");
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strName = name.getText().toString();
+                if(strName.equals("")) {
+                    Toast.makeText(getContext(), "Ertrag darf nicht leer sein", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    String strDate = dateView.getText().toString();
+                    System.out.println(strName + strDate);
+                    Boolean checkInsert = DB.updateYield(Integer.valueOf(yieldId), strName, strDate);
+                    if(checkInsert) Toast.makeText(getContext(), "Ertrag geändert", Toast.LENGTH_SHORT).show();
+                    else {
+                        Toast.makeText(getContext(), "Eintragung fehlgeschlagen", Toast.LENGTH_SHORT).show();
+                    }
+                    getDialog().dismiss();
+                }
+            }
+        });
+
+        negativeButton = (Button) view.findViewById(R.id.negativeButton);
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().dismiss();
+            }
+        });
+
         builder.setView(view)
-                .setTitle("Daten ändern")
-                .setNegativeButton("Abbrechen", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                    }
-                })
-                .setPositiveButton("Speichern", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String strName = name.getText().toString();
-                        String strDate = dateView.getText().toString();
-                        System.out.println(strName + strDate);
-                        Boolean checkInsert = DB.updateYield(Integer.valueOf(yieldId), strName, strDate);
-                        if(checkInsert) Toast.makeText(getContext(), "Ertrag geändert", Toast.LENGTH_SHORT).show();
-                        else {
-                            Toast.makeText(getContext(), "Eintragung fehlgeschlagen", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                .setTitle("Daten ändern");
 
 
         return builder.create();
