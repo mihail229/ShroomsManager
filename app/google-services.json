@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "417309976979",
+    "project_id": "mushroom-app-4a54c",
+    "storage_bucket": "mushroom-app-4a54c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:417309976979:android:8f96a57229df48afe2e066",
+        "android_client_info": {
+          "package_name": "com.example.shroomsmanager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmi5e8Md_RXQrYgOd5CEK0jfwL34VqVMI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
