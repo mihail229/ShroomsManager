@@ -1,4 +1,4 @@
-package com.example.shroomsmanager;
+package com.example.shroomsmanager.backend;
 // Firebase-Authentifizierungsbibliothek importieren
 import com.google.firebase.auth.FirebaseAuth;
 
