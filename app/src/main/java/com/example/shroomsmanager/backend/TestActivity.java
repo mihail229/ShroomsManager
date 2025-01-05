@@ -36,8 +36,8 @@ public class TestActivity extends AppCompatActivity {
                 AuthHelper authHelper = new AuthHelper();
 
                 // Benutzer registrieren
-                //   authHelper.registerUser(testEmail, testPassword);
-                authHelper.loginUser(testEmail, testPassword);
+                authHelper.registerUser(testEmail, testPassword);
+                //   authHelper.loginUser(testEmail, testPassword);
 
                 // Warten, bis der Benutzer registriert ist (z. B. durch kurze Verzögerung)
                 findViewById(R.id.testButton).postDelayed(() -> {
