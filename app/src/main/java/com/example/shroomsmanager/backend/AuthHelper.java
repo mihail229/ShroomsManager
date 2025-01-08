@@ -1,6 +1,10 @@
 package com.example.shroomsmanager.backend;
+
 // Firebase-Authentifizierungsbibliothek importieren
+import androidx.annotation.NonNull;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 public class AuthHelper {
 
@@ -15,11 +19,14 @@ public class AuthHelper {
      Verwendet Firebase-Methoden */
     public void registerUser(String email, String password) {
         auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        System.out.println("Benutzer erfolgreich registriert: " + auth.getCurrentUser().getEmail());
-                    } else {
-                        System.err.println("Fehler bei der Registrierung: " + task.getException().getMessage());
+                .addOnCompleteListener(new OnCompleteListener<com.google.firebase.auth.AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<com.google.firebase.auth.AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            System.out.println("Benutzer erfolgreich registriert: " + auth.getCurrentUser().getEmail());
+                        } else {
+                            System.err.println("Fehler bei der Registrierung: " + task.getException().getMessage());
+                        }
                     }
                 });
     }
@@ -27,11 +34,14 @@ public class AuthHelper {
     // Methode zur Anmeldung eines Benutzers mit E-Mail und Passwort
     public void loginUser(String email, String password) {
         auth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        System.out.println("Erfolgreich angemeldet: " + auth.getCurrentUser().getEmail());
-                    } else {
-                        System.err.println("Fehler bei der Anmeldung: " + task.getException().getMessage());
+                .addOnCompleteListener(new OnCompleteListener<com.google.firebase.auth.AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<com.google.firebase.auth.AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            System.out.println("Erfolgreich angemeldet: " + auth.getCurrentUser().getEmail());
+                        } else {
+                            System.err.println("Fehler bei der Anmeldung: " + task.getException().getMessage());
+                        }
                     }
                 });
     }
@@ -50,17 +60,5 @@ public class AuthHelper {
             System.out.println("Kein Benutzer angemeldet.");
             return null;
         }
-    }
-
-    // Methode zum Zurücksetzen des Passworts für eine angegebene E-Mail
-    public void resetPassword(String email) {
-        auth.sendPasswordResetEmail(email)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        System.out.println("Passwort-Zurücksetzen-E-Mail gesendet an: " + email);
-                    } else {
-                        System.err.println("Fehler beim Senden der Zurücksetzen-E-Mail: " + task.getException().getMessage());
-                    }
-                });
     }
 }
