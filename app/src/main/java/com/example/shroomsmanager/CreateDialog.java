@@ -72,7 +72,7 @@ public class CreateDialog extends AppCompatDialogFragment {
             @Override
             public void onClick(View v) {
                 String strName = name.getText().toString();
-                        if(strName.equals("")) {
+                        if(strName.isEmpty()) {
                             Toast.makeText(getContext(), "Name darf nicht leer sein", Toast.LENGTH_SHORT).show();
                         }
                         else{
@@ -98,7 +98,6 @@ public class CreateDialog extends AppCompatDialogFragment {
 
         builder.setView(view)
                 .setTitle("Neue Pilzzucht anlegen");
-
 
         return builder.create();
     }
