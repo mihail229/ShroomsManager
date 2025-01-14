@@ -41,36 +41,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart(){
-        super.onStart();
-        System.out.println("onStart");
-    }
-
-    @Override
-    protected void onResume(){
-        super.onResume();
-        System.out.println("onResume");
-    }
-
-    @Override
-    protected void onPause(){
-        super.onPause();
-        System.out.println("onPause");
-    }
-
-    @Override
-    protected void onStop(){
-        super.onStop();
-        System.out.println("onStop");
-    }
-
-    @Override
-    protected void onDestroy(){
-        super.onDestroy();
-        System.out.println("onDestroy");
-    }
-
-    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         if(hasFocus) {
@@ -81,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void openCreateDialog(View view){
         CreateDialog createDialog = new CreateDialog();
-        createDialog.show(getSupportFragmentManager(), "Test Dialog");
+        createDialog.show(getSupportFragmentManager(), "Create Dialog");
     }
 
     private void refreshShroomList(){
@@ -95,10 +65,14 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String shroomName = arrayAdapter.getItem(i);
                 System.out.println(shroomName);
-                Intent intent = new Intent(MainActivity.this, ShroomActivity.class);
-                intent.putExtra("ShroomId", shroomsList[0][i]);
-                startActivity(intent);
+                openShroom(shroomsList[0][i]);
             }
         });
+    }
+
+    private void openShroom(String shroomId){
+        Intent intent = new Intent(MainActivity.this, ShroomActivity.class);
+        intent.putExtra("ShroomId", shroomId);
+        startActivity(intent);
     }
 }

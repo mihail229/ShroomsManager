@@ -87,12 +87,12 @@ public class DBHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public boolean insertYield(String name, String date, String shroom_id){
+    public boolean insertYield(String yield, String date, String shroom_id){
         System.out.println("DBHelper.insertYield");
         SQLiteDatabase DB = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put("ertrag", name);
+        contentValues.put("ertrag", yield);
         contentValues.put("creation_date", date);
         contentValues.put("shroom_id", shroom_id);
 
