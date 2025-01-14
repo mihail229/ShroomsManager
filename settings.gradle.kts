@@ -11,11 +11,12 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS) // Verhindert Repositories in Modul-spezifischen build.gradle.kts
     repositories {
-        google()
-        mavenCentral()
+        google() // Google-Repository für Android- und Firebase-Abhängigkeiten
+        mavenCentral() // Maven-Repository für allgemeine Java/Kotlin-Bibliotheken
     }
 }
 

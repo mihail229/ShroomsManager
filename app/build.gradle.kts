@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    id("com.google.gms.google-services") // Google-Services-Plugin
+    id("com.google.firebase.crashlytics") // Firebase Crashlytics
 }
 
 android {
@@ -37,7 +39,17 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
+    // Firebase Bill of Materials (BoM) für die Verwaltung der Firebase-Bibliotheken
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
+
+    // Firebase-Bibliotheken: Versionen werden durch die BoM automatisch festgelegt
+    implementation("com.google.firebase:firebase-auth")       // Firebase-Authentifizierung
+    implementation("com.google.firebase:firebase-firestore")  // Firebase Cloud Firestore
+    implementation("com.google.firebase:firebase-crashlytics") // Firebase Crashlytics für Fehlerberichte
+    implementation("com.google.firebase:firebase-analytics")  // Firebase Analytics
 }
